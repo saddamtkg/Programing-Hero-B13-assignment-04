@@ -1,83 +1,36 @@
-## Welcome To ( সহজ সরল সিম্পল ) Assignment - 4 
-
-
----
-# 📅 Deadline For 60 marks: 23th February, 2026 (11:59 pm ⏱️)
-# 📅 Deadline For 50 marks: 24th February, 2026 (11:59 pm ⏱️)
-# 📅 Deadline For 30 marks: Any time after 24th February.
-
-
-# Main Requirements
-
-## Design Part
-
-## Dashboard
-- Website name and Create a dashboard like figma 
-- The section should be responsive for mobile devices. It is totally up to you. 
-
-## Available Jobs Section
-- A title on the left side, jobs count on the right side 
-- 3 different tab  below the section title 
-- Minimum 8 cards with:
-	- companyName
-	- position
-	- location
-	- type
-	- salary
-	- description
-	- 2 buttons: Interview, Rejected
-- By default all the jobs data will show on All tab, and the Interview, Rejected tab will show “No jobs Available” message with a subtitle below and an icon/image on the above
-
-- The section should be responsive for mobile devices. It is totally up to you.
-
---- 
-
-## Functionalities Part
-- Clicking on Interview button on the card 
-    - will add the data on Interview tab 
-    - add the status as Interview.
-    - Will increase the the count of interview in Dashboard 
-
-- Clicking on Rejected button on the card 
-    - will add the data on Rejected tab 
-    - add the status as Rejected.
-    - Will increase the the count of Rejected in Dashboard
-
-- Enable toggle between Interview and rejected button(you can select Rejected button after clicking on Interview, and Interview button after clicking on Rejected button). It will change the tab and dashboard count also. It will show tab wise jobs count on the right.
-
----
-
-# Challenges Requirements
-- Clicking on the delete button will remove that card from the UI, and the count will be deducted from the dashboard card and the main section.
-- No lorem ipsum text on your website. At least 8 meaningful commits in your project.  
-
-- Create a readme file and answer this question on your own. Don’t copy-paste from Google or any AI chatbot. 
-
+# Live link- https://saddamtkg.github.io/Programing-Hero-B13-assignment-04/
 
 ## Answers to Questions
 
 ### 1. What is the difference between getElementById, getElementsByClassName, and querySelector / querySelectorAll?
 
-### 2. How do you create and insert a new element into the DOM?
-
-### 3. What is Event Bubbling? And how does it work?
-
-### 4. What is Event Delegation in JavaScript? Why is it useful?
-
-### 5. What is the difference between preventDefault() and stopPropagation() methods?
+**Answer:**
+getElementById diye amra ekta element select kori jader id diye unique. Ekta matro element return kore. getElementsByClassName diye amra sob element ni e ashi jader same class name ache – eita ekta collection/array type jinish return kore, mane onek gulo element. querySelector diye amra CSS selector use kore first je element match korbe sheta ni e ashi – ekta element. Ar querySelectorAll diye same selector match kora sob element ni e ashi, collection hishebe. So summary te id thakle getElementById easy, class diye onek element lagle getElementsByClassName, ar jodi complex selector (like ".card .btn") lagle querySelector/querySelectorAll use kori.
 
 ---
 
+### 2. How do you create and insert a new element into the DOM?
 
-**Technology Stack:**
-- HTML
-- CSS (Vanilla/Tailwind/DaisyUI)
-- JavaScript (Vanilla)
+**Answer:**
+First createElement diye notun element banai. Example: document.createElement("div"). Tarpor oi element er moddhe text or child add korte pari. Tarpor jekhane add korte chai oi parent element select kore appendChild use kori – tahole notun element ta parent er last e chole jai. Jodi kono specific position e (before another child) add korte chai tahole insertBefore use kori – parent.insertBefore(newElement, referenceElement). So create kora + parent er sathe connect kora ei dui step e amra DOM e notun element insert kori.
 
+---
 
---- 
+### 3. What is Event Bubbling? And how does it work?
 
-## What to submit: 
+**Answer:**
+Event bubbling mane hocche jokhon amra kono element e click kori (or kono event fire hoy), sei event ta child theke parent er dike uthe jai – mane prothome child e trigger hoy, tarpor parent e, tarpor taro parent e, eivabe document porjonto. Browser by default eita e kore. Example: ekta button er moddhe click korle event ta button e fire hoy, tarpor button er parent div e, tarpor tar parent e – eivabe upore uthe jai. Tai amra parent element e ekta listener diye o child er click dhorte pari, karon event bubble hoe parent e o ashe.
 
-1. GitHub Repository Link: 
-2. Live Site Link: 
+---
+
+### 4. What is Event Delegation in JavaScript? Why is it useful?
+
+**Answer:**
+Event delegation mane hocche amra listener parent element e ekta diye dei, child er event handle kori. Jokhon click hoy parent e, amra check kori je actual click kon child e hoyeche (event.target or closest use kore). Eta useful karon – onek button thakle sob button e alada listener na diye ekta parent e diye amra sob handle korte pari. Ar important kichu hocche jodi amra pore theke DOM e notun element add kori (dynamic), shegulo teo listener automatically kaaj kore karon event bubble hoe parent e ashe. So code kom lage, dynamic element o handle hoy.
+
+---
+
+### 5. What is the difference between preventDefault() and stopPropagation() methods?
+
+**Answer:**
+preventDefault() browser er default behavior stop kore. Example: link e click korle normally page navigate hoy – preventDefault() dile sei navigation hobe na. Form submit e o same – submit howar default ta bondho kora jai. stopPropagation() event er bubbling bondho kore – mane event ta ar upore parent/grandparent e jabe na. So preventDefault() bolche "browser er normal kaaj koro na", stopPropagation() bolche "event ar upore uthbo na, baki listener gulo run hobe na". Duita alada jinish – ekta default action, arekta event flow (bubbling).
