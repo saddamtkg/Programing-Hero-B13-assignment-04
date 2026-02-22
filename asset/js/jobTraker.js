@@ -1,15 +1,18 @@
+// ==================== স্টেপ ১০: themeToggle ====================
+// টগল চেকবক্স: unchecked = light, checked = dark; পেজ লোডে বর্তমান থিম অনুযায়ী চেকবক্স সেট
 function themeToggle() {
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  themeToggleBtn.addEventListener('click', function () {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    themeIcon.classList.toggle('fa-moon', currentTheme === 'dark');
-    themeIcon.classList.toggle('fa-sun', currentTheme === 'light');
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+
+  // পেজ লোডে: বর্তমান data-theme অনুযায়ী চেকবক্স
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  toggle.checked = currentTheme === 'dark';
+
+  toggle.addEventListener('change', function () {
+    document.documentElement.setAttribute(
+      'data-theme',
+      toggle.checked ? 'dark' : 'light',
+    );
   });
 }
 
