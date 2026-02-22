@@ -1,3 +1,18 @@
+function themeToggle() {
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  themeToggleBtn.addEventListener('click', function () {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    themeIcon.classList.toggle('fa-moon', currentTheme === 'dark');
+    themeIcon.classList.toggle('fa-sun', currentTheme === 'light');
+  });
+}
+
 let jobCardsArray = [];
 
 let currentTab = 'all';
@@ -5,7 +20,7 @@ let currentTab = 'all';
 // ========== HTML থেকে সব কার্ড নিয়ে array তে রাখা ==========
 
 function storeCardsInArray() {
-  const container = document.querySelector('.job-cards-container');
+  const container = document.getElementById('job-cards-container');
   if (!container) {
     jobCardsArray = [];
     return;
@@ -20,7 +35,7 @@ function storeCardsInArray() {
 
 // ========== কার্ডের status অনুযায়ী count বের করা ==========
 
-function getconutByStatus() {
+function getcountByStatus() {
   let pendingCount = 0;
   let interviewCount = 0;
   let rejectedCount = 0;
@@ -35,11 +50,7 @@ function getconutByStatus() {
       rejectedCount = rejectedCount + 1;
     }
   }
-  return {
-    pending: pendingCount,
-    interview: interviewCount,
-    rejected: rejectedCount,
-  };
+  return { pendingCount, interviewCount, rejectedCount };
 }
 
 // ========== ড্যাশবোয়ার্ডের তিনটা সংখ্যা + ডান পাশের jobs count আপডেট করা ==========
@@ -50,7 +61,7 @@ function updateDashboardCounts() {
   const pendingEl = document.getElementById('dashboard-pending');
   const interviewEl = document.getElementById('dashboard-interview');
   const rejectedEl = document.getElementById('dashboard-rejected');
-  const totalJobsEl = document.getElementById('jobs-count');
+  const jobsCountEl = document.getElementById('jobs-count');
 
   if (pendingEl) {
     pendingEl.textContent = jobCardsArray.length;
@@ -73,13 +84,15 @@ function updateDashboardCounts() {
 }
 
 function applyTabFilter() {
-  const container = document.getElementById('job-cards-container');
+  const container = document.getElementById('job-card-container');
   const emptyState = document.getElementById('jobs-empty-state');
+  if (!container) return;
   let visibleCount = 0;
 
   for (let i = 0; i < jobCardsArray.length; i++) {
     const card = jobCardsArray[i];
     const status = card.getAttribute('data-status');
+    const shouldShow = currentTab === 'all' || status === currentTab;
 
     if (shouldShow) {
       card.classList.remove('hidden');
@@ -147,7 +160,7 @@ function updateCardBadge(card, status) {
 }
 
 function setupInterviewRejectedButtons() {
-  const container = document.getElementById('job-cards-container');
+  const container = document.getElementById('job-card-container');
   if (!container) return;
 
   container.addEventListener('click', function (e) {
@@ -171,6 +184,23 @@ function setupInterviewRejectedButtons() {
         applyTabFilter();
         updateDashboardCounts();
       }
+    }
+  });
+}
+
+// ========== Delete বাটন: কার্ড DOM থেকে সরানো + array ও count আপডেট ==========
+function setupDeleteButtons() {
+  const container = document.getElementById('jobs-card-container');
+  if (!container) return;
+  container.addEventListener('click', function (e) {
+    const deleteBtn = e.target.closest('.btn-delete-job');
+    if (!deleteBtn) return;
+    const card = deleteBtn.closest('article');
+    if (card) {
+      card.remove();
+      storeCardsInArray();
+      updateDashboardCounts();
+      applyTabFilter();
     }
   });
 }
