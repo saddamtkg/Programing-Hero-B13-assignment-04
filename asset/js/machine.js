@@ -20,7 +20,7 @@ let currentTab = 'all';
 // ========== HTML থেকে সব কার্ড নিয়ে array তে রাখা ==========
 
 function storeCardsInArray() {
-  const container = document.getElementById('job-cards-container');
+  const container = document.getElementById('jobs-card-container');
   if (!container) {
     jobCardsArray = [];
     return;
@@ -56,7 +56,7 @@ function getcountByStatus() {
 // ========== ড্যাশবোয়ার্ডের তিনটা সংখ্যা + ডান পাশের jobs count আপডেট করা ==========
 function updateDashboardCounts() {
   storeCardsInArray();
-  const counts = getconutByStatus();
+  const counts = getcountByStatus();
 
   const pendingEl = document.getElementById('dashboard-pending');
   const interviewEl = document.getElementById('dashboard-interview');
@@ -84,7 +84,7 @@ function updateDashboardCounts() {
 }
 
 function applyTabFilter() {
-  const container = document.getElementById('job-card-container');
+  const container = document.getElementById('jobs-card-container');
   const emptyState = document.getElementById('jobs-empty-state');
   if (!container) return;
   let visibleCount = 0;
@@ -146,13 +146,17 @@ function switchTab(tabName) {
 function updateCardBadge(card, status) {
   const badge = card.querySelector('.badge');
   if (!badge) return;
+  badge.classList.remove(
+    'bg-green-500',
+    'bg-gray-500',
+    'bg-red-500',
+    'text-white',
+  );
   if (status === 'interview') {
     badge.textContent = 'INTERVIEW';
-    badge.classList.remove('bg-gray-500', 'text-white');
     badge.classList.add('bg-green-500', 'text-white');
   } else if (status === 'rejected') {
     badge.textContent = 'REJECTED';
-    badge.classList.remove('bg-gray-500', 'text-white');
     badge.classList.add('bg-red-500', 'text-white');
   } else {
     badge.textContent = 'NOT APPLIED';
@@ -160,7 +164,7 @@ function updateCardBadge(card, status) {
 }
 
 function setupInterviewRejectedButtons() {
-  const container = document.getElementById('job-card-container');
+  const container = document.getElementById('jobs-card-container');
   if (!container) return;
 
   container.addEventListener('click', function (e) {
