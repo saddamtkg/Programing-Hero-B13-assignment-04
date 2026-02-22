@@ -71,3 +71,106 @@ function updateDashboardCounts() {
     }
   }
 }
+
+function applyTabFilter() {
+  const container = document.getElementById('job-cards-container');
+  const emptyState = document.getElementById('jobs-empty-state');
+  let visibleCount = 0;
+
+  for (let i = 0; i < jobCardsArray.length; i++) {
+    const card = jobCardsArray[i];
+    const status = card.getAttribute('data-status');
+
+    if (shouldShow) {
+      card.classList.remove('hidden');
+      visibleCount = visibleCount + 1;
+    } else {
+      card.classList.add('hidden');
+    }
+  }
+  if (visibleCount === 0 && currentTab !== 'all') {
+    container.classList.add('hidden');
+    if (emptyState) {
+      emptyState.classList.remove('hidden');
+    }
+  } else {
+    container.classList.remove('hidden');
+    if (emptyState) {
+      emptyState.classList.add('hidden');
+    }
+  }
+
+  const tabAll = document.getElementById('tab-all');
+  const tabInterview = document.getElementById('tab-interview');
+  const tabRejected = document.getElementById('tab-rejected');
+
+  if (tabAll) {
+    tabAll.classList.remove('btn-primary', 'btn-ghost');
+    tabAll.classList.add(currentTab === 'all' ? 'btn-primary' : 'btn-ghost');
+  }
+
+  if (tabInterview) {
+    tabInterview.classList.remove('btn-primary', 'btn-ghost');
+    tabInterview.classList.add(
+      currentTab === 'interview' ? 'btn-primary' : 'btn-ghost',
+    );
+  }
+
+  if (tabRejected) {
+    tabRejected.classList.remove('btn-primary', 'btn-ghost');
+    tabRejected.classList.add(
+      currentTab === 'rejected' ? 'btn-primary' : 'btn-ghost',
+    );
+  }
+}
+
+function switchTab(tabName) {
+  currentTab = tabName;
+  applyTabFilter();
+  updateDashboardCounts();
+}
+
+function updateCardBadge(card, status) {
+  const badge = card.querySelector('.badge');
+  if (!badge) return;
+  if (status === 'interview') {
+    badge.textContent = 'INTERVIEW';
+    badge.classList.remove('bg-gray-500', 'text-white');
+    badge.classList.add('bg-green-500', 'text-white');
+  } else if (status === 'rejected') {
+    badge.textContent = 'REJECTED';
+    badge.classList.remove('bg-gray-500', 'text-white');
+    badge.classList.add('bg-red-500', 'text-white');
+  } else {
+    badge.textContent = 'NOT APPLIED';
+  }
+}
+
+function setupInterviewRejectedButtons() {
+  const container = document.getElementById('job-cards-container');
+  if (!container) return;
+
+  container.addEventListener('click', function (e) {
+    const interviewBtn = e.target.closest('.btn-interview');
+    if (interviewBtn) {
+      const card = interviewBtn.closest('article');
+      if (card) {
+        card.setAttribute('data-status', 'interview');
+        updateCardBadge(card, 'interview');
+        applyTabFilter();
+        updateDashboardCounts();
+      }
+      return;
+    }
+    const rejectedBtn = e.target.closest('.btn-rejected');
+    if (rejectedBtn) {
+      const card = rejectedBtn.closest('article');
+      if (card) {
+        card.setAttribute('data-status', 'rejected');
+        updateCardBadge(card, 'rejected');
+        applyTabFilter();
+        updateDashboardCounts();
+      }
+    }
+  });
+}
